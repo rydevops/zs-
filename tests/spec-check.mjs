@@ -2,9 +2,9 @@
 // 1) static data (ammo economy, pickups, weapon stats)
 // 2) a scripted "god mode" run through all seven beats that counts every enemy spawned
 //    and checks the spawn rules (>= 18 m away and out of sight), the checkpoint and the hold-out.
-import { Game } from '../src/js/game.js';
-import { WEAPONS, ENEMIES, HOLDOUT, ITEMS, SPAWN, PLAYER } from '../src/js/config.js';
-import * as L from '../src/js/level.js';
+import { Game } from '../js/game.js';
+import { WEAPONS, ENEMIES, HOLDOUT, ITEMS, SPAWN, PLAYER } from '../js/config.js';
+import * as L from '../js/level.js';
 
 let failures = 0;
 const ok = (cond, msg) => { console.log((cond ? '  ok   ' : '  FAIL ') + msg); if (!cond) failures++; };

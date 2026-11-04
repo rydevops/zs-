@@ -1,11 +1,11 @@
-// Draws the app icons with canvas in headless Chromium and saves PNGs to src/icons/.
+// Draws the app icons with canvas in headless Chromium and saves PNGs to icons/.
 // Usage: node tools/make-icons.mjs   (needs Playwright; set NODE_PATH to a global install if needed)
 import { createRequire } from 'node:module';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const out = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'icons');
+const out = join(dirname(fileURLToPath(import.meta.url)), '..', 'icons');
 mkdirSync(out, { recursive: true });
 const { chromium } = createRequire(import.meta.url)('playwright');
 

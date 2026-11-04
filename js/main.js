@@ -6,7 +6,7 @@ import { HUD } from './hud.js';
 import { Input } from './input.js';
 import { AudioEngine, nullAudio } from './audio.js';
 import { loadSave, writeSave } from './save.js';
-import { registerSW, requestWakeLock, releaseWakeLock, isStandalone, isIOS } from './pwa.js';
+import { registerSW, applyUpdate, updateWaiting, requestWakeLock, releaseWakeLock, isStandalone, isIOS } from './pwa.js';
 
 const $ = (id) => document.getElementById(id);
 const canvas = $('game');
@@ -93,6 +93,7 @@ function refreshTitle() {
 }
 
 function toTitle() {
+  if (updateWaiting() && applyUpdate()) return; // back on the title screen: switch to the new version now
   game.stopLoops();
   mode = 'title'; show('title'); refreshTitle();
   releaseWakeLock();
@@ -195,10 +196,11 @@ window.addEventListener('blur', () => { if (mode === 'play' || mode === 'countdo
 window.addEventListener('pagehide', backgrounded);
 
 registerSW(() => {
-  const t = $('update-toast');
-  t.hidden = false;
-  setTimeout(() => (t.hidden = true), 7000);
-});
+  // Mid-game: offer the update without interrupting; it also applies on the next launch.
+  $('update-toast').hidden = false;
+}, () => mode === 'title' || mode === 'results');
+$('btn-update').addEventListener('click', (e) => { e.preventDefault(); applyUpdate(); });
+$('btn-update-later').addEventListener('click', (e) => { e.preventDefault(); $('update-toast').hidden = true; });
 
 // ------------------------------------------------------------------ loop
 let last = performance.now(), acc = 0, slowT = 0;

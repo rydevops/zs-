@@ -87,7 +87,11 @@ button:active { transform: scale(0.97); }
 .unlocks { color: var(--infected); font-weight: 700; font-size: 15px; line-height: 1.5; }
 #death-msg { color: var(--muted); max-width: 320px; }
 #update-toast {
-  position: absolute; left: 50%; transform: translateX(-50%); bottom: calc(var(--sab) + 40%); z-index: 9;
-  background: rgba(20, 30, 40, 0.95); border: 1px solid #5ad1ff; color: #cfefff; padding: 10px 16px; border-radius: 20px; font-size: 13px;
+  position: absolute; left: 50%; transform: translateX(-50%); top: calc(var(--sat) + 120px); z-index: 9;
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(20, 30, 40, 0.96); border: 1px solid #5ad1ff; color: #cfefff; padding: 8px 10px 8px 16px; border-radius: 22px; font-size: 14px;
   white-space: nowrap;
 }
+#update-toast[hidden] { display: none; }
+#update-toast button { font-size: 13px; padding: 7px 12px; border-radius: 16px; }
+#update-toast #btn-update { background: #5ad1ff; color: #06202c; border-color: #9fe4ff; }
