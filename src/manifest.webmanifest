@@ -1,0 +1,18 @@
+{
+  "name": "Zombie Survival: First Night",
+  "short_name": "First Night",
+  "description": "Level 1 of Zombie Survival. Reach the Maple Street Clinic and hold the line.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0d1320",
+  "background_color": "#07090f",
+  "categories": ["games"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
