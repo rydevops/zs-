@@ -1,0 +1,1 @@
+{"name":"zombie-survival","version":"1.0.0","private":true,"type":"module","scripts":{"build":"node build.mjs","serve":"node tools/serve.mjs src","audio":"node tools/render-audio.mjs","icons":"node tools/make-icons.mjs","test":"node tests/spec-check.mjs"}}
