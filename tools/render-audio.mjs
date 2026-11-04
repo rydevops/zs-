@@ -1,14 +1,14 @@
-// Renders the music stems composed in src/js/music.js to looping MP3 files.
+// Renders the music stems composed in js/music.js to looping MP3 files.
 // Usage: node tools/render-audio.mjs [stemName...]   (requires ffmpeg with libmp3lame)
 import { writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
-import { STEMS, PAD } from '../src/js/music.js';
+import { STEMS, PAD } from '../js/music.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const outDir = join(root, 'src', 'audio');
+const outDir = join(root, 'audio');
 const SR = 44100;
 mkdirSync(outDir, { recursive: true });
 const tmp = join(tmpdir(), 'zs-audio-' + process.pid);

@@ -1,9 +1,9 @@
-// Minimal static server for local testing: node tools/serve.mjs [dir] [port] [subpath]
+// Minimal static server for local testing: node tools/serve.mjs [dir=.] [port] [subpath]
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { join, extname, resolve } from 'node:path';
 
-const dir = resolve(process.argv[2] || 'dist');
+const dir = resolve(process.argv[2] || '.');
 const port = Number(process.argv[3] || 8080);
 const base = (process.argv[4] || '/').replace(/\/?$/, '/');
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.webmanifest': 'application/manifest+json', '.png': 'image/png', '.mp3': 'audio/mpeg', '.svg': 'image/svg+xml' };

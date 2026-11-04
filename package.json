@@ -1,1 +1,13 @@
-{"name":"zombie-survival","version":"1.0.0","private":true,"type":"module","scripts":{"build":"node build.mjs","serve":"node tools/serve.mjs src","audio":"node tools/render-audio.mjs","icons":"node tools/make-icons.mjs","test":"node tests/spec-check.mjs"}}
+{
+  "name": "zombie-survival",
+  "version": "1.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "stamp": "node tools/stamp-sw.mjs",
+    "serve": "node tools/serve.mjs . 8080",
+    "audio": "node tools/render-audio.mjs",
+    "icons": "node tools/make-icons.mjs",
+    "test": "node tests/spec-check.mjs && node tools/stamp-sw.mjs --check"
+  }
+}

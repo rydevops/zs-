@@ -26,35 +26,39 @@ The sticks appear wherever a thumb lands in the bottom 35% of the screen. Pause 
 
 ## Develop
 
-Requires Node 18 or later. There is nothing to install.
+The game is plain static files at the repository root, so there is no build step and nothing to install. You need Node 18 or later for the tools.
 
 ```sh
-node tools/serve.mjs src 8080        # play the source directly at http://localhost:8080/
+node tools/serve.mjs . 8080          # play at http://localhost:8080/
+node tools/serve.mjs . 8080 /zs-/    # same, under a GitHub Pages-style subpath
 node tests/spec-check.mjs            # headless spec checks (economy, spawns, beats, checkpoint, hold-out)
-node build.mjs                       # outputs the static site to dist/
-node tools/serve.mjs dist 8080 /zs-/ # test the build under a GitHub Pages-style subpath
+node tools/stamp-sw.mjs              # REQUIRED after changing any game file (see below)
 ```
 
 Asset tools (their output is committed, so you only need these to change assets):
 
 ```sh
-node tools/render-audio.mjs          # re-render src/audio/*.mp3 from music.js (needs ffmpeg + libmp3lame)
-node tools/make-icons.mjs            # re-draw src/icons/*.png (needs Playwright)
+node tools/render-audio.mjs          # re-render audio/*.mp3 from js/music.js (needs ffmpeg + libmp3lame)
+node tools/make-icons.mjs            # re-draw icons/*.png (needs Playwright)
 ```
 
-## Deploy (GitHub Pages)
+## Releasing and updates
 
-`.github/workflows/deploy.yml` runs the spec checks, builds `dist/` and deploys it on every push to `main`. One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+GitHub Pages serves the repository root of `main` directly: **Settings → Pages → Build and deployment → Source: Deploy from a branch → `main` / `(root)`**. `.nojekyll` makes Pages serve the files as they are.
+
+`sw.js` carries a cache version that is a hash of every game file. **After changing any game file, run `node tools/stamp-sw.mjs` and commit the updated `sw.js` with it.** The *Checks* workflow fails if `sw.js` is out of date, so a release can't ship without a new version.
+
+Whenever the installed app is opened or brought back to the foreground while online, it checks for a new version. The browser's HTTP cache is bypassed, so the check sees the latest `sw.js` straight away.
+
+- **On the title or results screen:** the new version installs and the app reloads into it immediately.
+- **During play:** an **"Update ready"** banner offers *Update now* or *Later*. The game is never interrupted, and the update applies on the next launch or the next return to the title screen.
 
 All paths are relative: the manifest `start_url`, the service worker scope and every asset. The site therefore works from the repository subpath (`https://<user>.github.io/<repo>/`).
-
-`build.mjs` stamps the service worker with a content-hashed cache version and the full pre-cache list. Every release therefore installs a fresh cache. Installed copies show **"Update ready"** and switch to the new version on their next launch.
 
 ## Project layout
 
 ```
-src/
-  index.html, styles.css, manifest.webmanifest, sw.js
+index.html, styles.css, manifest.webmanifest, sw.js, .nojekyll   (served from the repo root)
   audio/        rendered music stems (MP3, ~2.4 MB)
   icons/        192 / 512 / maskable / apple-touch icons
   js/
@@ -68,6 +72,7 @@ src/
     synth.js / music.js / sfx.js   DSP toolkit, score, sound recipes
     config.js   tuning values from the spec    save.js  local save    pwa.js  SW + wake lock
 tests/spec-check.mjs   headless acceptance checks
+tools/                 stamp-sw, serve, render-audio, make-icons
 ```
 
 ## Spec notes and interpretations
